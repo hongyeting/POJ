@@ -2,13 +2,13 @@
 
 using namespace std;
 
-unsigned int o[11][1 << 11];//o[y][i]表示前y-1行填满，第y行状态为i时的个数
+long long o[11][1 << 11];//o[y][i]表示前y-1行填满，第y行状态为i时的个数
 bool p[1 << 11] = { false };//o[0][1<<11]
 int Y, T;//减少函数参数
 int s[4][2];//非1凸起的开始位置和长度
 
-unsigned int f(int state, int ti) {//在已有状态的情况下，讨论第ti+1个凸起
-	unsigned int ans = 0;
+long long f(int state, int ti) {//在已有状态的情况下，讨论第ti+1个凸起
+	long long ans = 0;
 	for (int i = 0;i < (1 << s[ti][1]);i++) {
 		int len = 0;
 		bool rslt = true;
