@@ -8,7 +8,7 @@ int Y, T;//减少函数参数
 int s[4][2];//非1凸起的开始位置和长度
 
 int f(int state, int ti) {//在已有状态的情况下，讨论第ti+1个凸起
-	int ans = 0;
+	unsigned int ans = 0;
 	for (int i = 0;i < (1 << s[ti][1]);i++) {
 		int len = 0;
 		bool rslt = true;
