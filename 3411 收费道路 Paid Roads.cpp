@@ -36,7 +36,6 @@ int main() {
                 else d += w[i].y;
                 if (d < f[b][S]) {
                     f[b][S] = d;//发现到城市b+1更省钱的走法
-                    vis[b][S] = false;//新加的
                     Q.push(make_pair(-d, make_pair(b, S)));
                 }
             }
