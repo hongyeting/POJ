@@ -18,6 +18,7 @@ struct LINE {
 	int from, to, time;
 	LINE(int a, int b, int c) :from(a - 1), to(b - 1), time(c) {}
 };
+vector<LINE>lines;
 
 struct node {
 	int id, f;
@@ -27,13 +28,22 @@ struct node {
 	}//定义node比较大小的方式，使优先队列里和小的排前面
 };
 
-vector<LINE>lines;
+struct NEI {
+	vector<int>to;
+	vector<int>from;
+	NEI(){}
+};
+vector<NEI>nlines;
 
 int main() {
 	cin >> N >> M;
 	int a, b, c;
-	for (int m = 0;m < M;m++)
+	for (int n = 0;n < N;n++)nlines.push_back(NEI());
+	for (int m = 0;m < M;m++) {
 		cin >> a >> b >> c, lines.push_back(LINE(a, b, c));
+		nlines[a - 1].to.push_back(lines.size() - 1);
+		nlines[b - 1].from.push_back(lines.size() - 1);
+	}
 	cin >> S >> T >> K;S--;T--;
 	if (S == T)K++;
 	memset(h, 0x3f, sizeof(h));
@@ -46,9 +56,12 @@ int main() {
 		vis[id] = true;
 		int t = -o.first;
 		h[id] = t;
-		for (int i = 0;i < M;i++)
-			if (lines[i].to == id && !vis[lines[i].from])
+		vector<int>& from = nlines[id].from;
+		for (int ix = 0;ix < from.size();ix++) {
+			int i = from[ix];
+			if (t + lines[i].time < h[lines[i].from])
 				Q.push(make_pair(-t - lines[i].time, lines[i].from));
+		}
 	}//dijkstra完成h[](到终点的预期代价)
 	if (!vis[start])
 		cout << -1 << '\n';//到不了终点
@@ -64,7 +77,9 @@ int main() {
 				break;
 			}
 			if (t[o.id] > maxtime)continue;
-			for (int i = 0;i < M;i++) {
+			vector<int>& to = nlines[o.id].to;
+			for (int ix = 0;ix < to.size();ix++) {
+				int i = to[ix];
 				if (lines[i].from == o.id && vis[lines[i].to])
 					Q.push(node(lines[i].to, o.f + lines[i].time));
 			}
