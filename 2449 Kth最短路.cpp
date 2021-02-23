@@ -51,8 +51,10 @@ int main() {
 		int t = -o.first;
 		h[id] = t;
 		for (int i = nei[id][1];i != INF;i = lines[i].s_to)
-			if (t + lines[i].time < h[lines[i].from])
+			if (t + lines[i].time < h[lines[i].from]) {
+				h[lines[i].from] = t + lines[i].time;
 				Q.push(make_pair(-t - lines[i].time, lines[i].from));
+			}
 	}//dijkstra完成h[](到终点的预期代价)
 	if (!vis[start])
 		cout << -1 << '\n';//到不了终点
